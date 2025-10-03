@@ -3,3 +3,13 @@ poc/mcp/agent-env
 __pycache__
 agent-env
 agent-env/
+.venv
+.env
+.mypy_cache
+__pycache__
+.pytest_cache
+cc-ca.crt
+certs/*.pem
+.DS_Store
+conversations.db
+conversations.db*

@@ -1,114 +1,69 @@
-🚀 **[Open in Google Colab](https://colab.research.google.com/drive/1T3JPcpC7B7_ASDFLifLwwDH0Ikgc68Am?usp=sharing)**
-# OpenAI Agents using Google Gemini Model
+### 🌟 [What is OpenAI Agents SDK?](https://openai.github.io/openai-agents-python/)
 
-https://openai.github.io/openai-agents-python/
+Imagine you want to build a **smart assistant**—like a chatbot or an AI agent—that can:
 
-https://openai.github.io/openai-agents-python/models/
+* Answer questions intelligently,
+* Use tools like calculators or web searches,
+* And know when to ask another agent for help.
 
-https://ai.google.dev/gemini-api/docs/openai
+💡 The **OpenAI Agents SDK** helps you create such smart AI agents **easily using Python**.
 
+---
 
-Create a .env file with your gemini key
-    
-    
-    uv init hello_agent
+### 🤖 In Simple Words
 
-    cd hello_agent
+Think of it like this:
 
-    uv add openai-agents python-dotenv
+* **Agent** = A smart AI person (powered by GPT) with a job (instructions).
+* **Tool** = A calculator, file reader, or anything the agent can “use”.
+* **Handoff** = When one agent passes the task to another expert agent.
+* **Guardrail** = A filter or checkpoint to make sure the input is okay.
+* **Runner** = The engine that runs the agent’s brain.
 
-    uv run main.py
+---
 
-## How to configure LLM Providers (Other than OpenAI) at different levels (Global, Run and Agent)?
+### 🧒 Analogy for a 5-year-old:
 
-Agents SDK is setup to use OpenAI as default providers. When using other providers you can setup at different levels:
+Imagine you're in a big school with many teachers.
 
-### 1. AGENT LEVEL
+* 🧑‍🏫 The **Math Teacher** helps with math problems.
+* 🧑‍🏫 The **History Teacher** helps with history questions.
+* 🧑‍🏫 The **Receptionist** decides who the student should talk to.
 
-```python
-import asyncio
-from openai import AsyncOpenAI
-from agents import Agent, OpenAIChatCompletionsModel, Runner, set_tracing_disabled
+This is how Agents SDK works:
 
-gemini_api_key = ""
+1. The **student** (user) asks a question.
+2. The **receptionist agent** reads the question and **hands it off** to the right teacher (agent).
+3. The teacher may use a **tool** like a calculator.
+4. If the question is naughty, a **guardrail** might block it before it even reaches the teacher.
+5. Everything is recorded nicely so you can **see what happened** and **debug it** (called tracing).
 
-#Reference: https://ai.google.dev/gemini-api/docs/openai
-client = AsyncOpenAI(
-    api_key=gemini_api_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-)
+---
 
-set_tracing_disabled(disabled=True)
-
-async def main():
-    # This agent will use the custom LLM provider
-    agent = Agent(
-        name="Assistant",
-        instructions="You only respond in haikus.",
-        model=OpenAIChatCompletionsModel(model="gemini-2.0-flash", openai_client=client),
-    )
-
-    result = await Runner.run(
-        agent,
-        "Tell me about recursion in programming.",
-    )
-    print(result.final_output)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-
-### 2. RUN LEVEL
+### 🧪 Hello World Example (Python):
 
 ```python
-from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel
-from agents.run import RunConfig
+from agents import Agent, Runner
 
-gemini_api_key = ""
+agent = Agent(name="Assistant", instructions="You are a helpful assistant")
 
-#Reference: https://ai.google.dev/gemini-api/docs/openai
-external_client = AsyncOpenAI(
-    api_key=gemini_api_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-)
-
-model = OpenAIChatCompletionsModel(
-    model="gemini-2.0-flash",
-    openai_client=external_client
-)
-
-config = RunConfig(
-    model=model,
-    model_provider=external_client,
-    tracing_disabled=True
-)
-
-agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant")
-
-result = Runner.run_sync(agent, "Hello, how are you.", run_config=config)
-
+result = Runner.run_sync(agent, "Write a haiku about recursion in programming.")
 print(result.final_output)
 ```
 
-### GLOBAL
+📝 Output:
 
-```python
-from agents import Agent, Runner, AsyncOpenAI, set_default_openai_client, set_tracing_disabled, set_default_openai_api
-
-gemini_api_key = ""
-set_tracing_disabled(True)
-set_default_openai_api("chat_completions")
-
-external_client = AsyncOpenAI(
-    api_key=gemini_api_key,
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
-)
-set_default_openai_client(external_client)
-
-agent: Agent = Agent(name="Assistant", instructions="You are a helpful assistant", model="gemini-2.0-flash")
-
-result = Runner.run_sync(agent, "Hello")
-
-print(result.final_output)
 ```
+Code within the code,
+Functions calling themselves now,
+Infinite loop’s dance.
+```
+
+---
+
+### 💡 Why Use It?
+
+* Easy to learn and write.
+* Lets you build **real-world AI workflows**.
+* Built-in support for **tools, agents, handoffs, and guardrails**.
+* Helps you **visualize and trace** what happened during the AI's thinking process.

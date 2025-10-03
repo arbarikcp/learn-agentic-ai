@@ -5,3 +5,6 @@ __pycache__
 .pytest_cache
 cc-ca.crt
 certs/*.pem
+.DS_Store
+conversations.db
+conversations.db*

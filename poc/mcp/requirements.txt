@@ -1,3 +1,7 @@
 mcp==1.4.1
 mcp[cli]==1.4.1
 uv==0.6.8
+dotenv
+nest_asyncio
+aiohttp
+sseclient
